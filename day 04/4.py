@@ -9,9 +9,8 @@ def parse_room_name(name):
 	bracket = name.find('[')
 	ls, checksum = name[:bracket], name[bracket+1:-1]
 	last_dash = len(ls) - ls[::-1].find('-')
-	letters, sector_id = ls[:last_dash], int(ls[last_dash:])
+	letters, sector_id = ls[:last_dash-1], int(ls[last_dash:])
 	return letters, sector_id, checksum
-	# print(letters, sector_id, checksum)
 
 def check_checksum(letters,sector_id,checksum):
 	# now to check the checksum
@@ -35,3 +34,22 @@ def parse_and_check(name):
 	return check_checksum(l,s,c)
 
 print('part 1:',sum(map(parse_and_check,room_names)))
+
+import string
+
+def c_shift(letters,sector_id):
+	new_letters = ['_']*len(letters)
+	for i,l in enumerate(letters):
+		if l == '-':
+			new_letters[i] = ' '
+		else:
+			new_ind = (string.ascii_lowercase.find(l) + sector_id) % 26
+			new_letters[i] = string.ascii_lowercase[new_ind]
+	return ''.join(new_letters), sector_id
+
+for rn in room_names:
+	l, s, _ = parse_room_name(rn)
+	# print(c_shift(l,s)) # yes, i had to look through everything first (ctrl+f "north")
+	l, s = c_shift(l,s)
+	if l == 'northpole object storage':
+		print('part 2:', s)
