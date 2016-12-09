@@ -44,7 +44,7 @@ instr_passer = {'rect':rect_handler, 'rotate':rotate_handler}
 
 def print_screen():
 	for r in range(height):
-		print(''.join(['.' if screen[r][c]==[0] else '#' for c in range(width)]))
+		print(''.join([' ' if screen[r][c]==[0] else '#' for c in range(width)]))
 	print()
 
 def total_lit():
@@ -58,5 +58,5 @@ for inst in instr:
 	# print_screen()
 
 print('part 1:',total_lit())
-
-
+print('part 2:')
+print_screen()
